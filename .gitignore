@@ -1,0 +1,5 @@
+venv/
+*.pyc
+*.swp
+db.sqlite3
+portal.log
