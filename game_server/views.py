@@ -6,12 +6,15 @@ from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.forms import ModelForm
-from django.http import HttpResponseForbidden, JsonResponse
+from django.http import JsonResponse
 from django.middleware.csrf import get_token
-from django.shortcuts import get_object_or_404
 from django.views.generic import View
 
 from .models import Entity
+
+
+def failure_response(errors):
+    return JsonResponse({"result": "failure", "errors": errors})
 
 
 class JsonFormView(View):
@@ -21,10 +24,7 @@ class JsonFormView(View):
     def validate_form(self, form):
         if form.is_valid():
             return True, JsonResponse({"result": "success"})
-        return False, JsonResponse({
-            "result": "failure",
-            "errors": form.errors.get_json_data()
-        })
+        return False, failure_response(form.errors.get_json_data())
 
 
 class UserCreateView(JsonFormView):
@@ -64,7 +64,10 @@ class EntityCreateView(LoginRequiredMixin, JsonFormView):
 
 class EntityView(LoginRequiredMixin, JsonFormView):
     def get(self, request, uuid):
-        entity = get_object_or_404(Entity, uuid=uuid)
+        try:
+            entity = Entity.objects.get(uuid=uuid, active=True)
+        except Entity.DoesNotExist:
+            return failure_response("Invalid UUID")
         return JsonResponse({
             "csrf_token": get_token(request),
             "entity": {
@@ -77,12 +80,41 @@ class EntityView(LoginRequiredMixin, JsonFormView):
         })
 
     def post(self, request, uuid):
-        entity = get_object_or_404(Entity, uuid=uuid, active=True)
+        try:
+            entity = Entity.objects.get(uuid=uuid, active=True)
+        except Entity.DoesNotExist:
+            return failure_response("Invalid UUID")
+
         if request.user != entity.player:
-            return HttpResponseForbidden
+            return failure_response("Change Permission Denied")
 
         form = EntityForm(request.POST, instance=entity)
         result, response = self.validate_form(form)
         if result:
             form.save()
         return response
+
+
+class EntitySearchView(LoginRequiredMixin, View):
+    def get(self, request):
+        return JsonResponse({"csrf_token": get_token(request)})
+
+    def post(self, request):
+        entities = Entity.objects.filter(active=True)
+        try:
+            entities.filter(**request.GET)
+        except TypeError:
+            return failure_response("Bad Query")
+        return JsonResponse({
+            "result": "success",
+            "entities": [
+                {
+                    "uuid": e.uuid,
+                    "name": e.name,
+                    "kind": e.kind,
+                    "player": e.player.username,
+                    "data": e.data
+                }
+                for e in entities
+            ]
+        })

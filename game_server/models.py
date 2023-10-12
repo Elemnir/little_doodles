@@ -5,7 +5,7 @@
 import logging
 import uuid
 
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.db import models
 
 
@@ -17,7 +17,7 @@ class Entity(models.Model):
     changed = models.DateTimeField(auto_now=True)
     active = models.BooleanField(blank=True, default=True)
     uuid = models.UUIDField(blank=True, default=uuid.uuid4, unique=True, db_index=True)
-    player = models.ForeignKey(User, on_delete=models.CASCADE)
+    player = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     kind = models.CharField(max_length=1024, db_index=True)
     name = models.CharField(max_length=1024, db_index=True)
     data = models.JSONField(blank=True, default=dict)
