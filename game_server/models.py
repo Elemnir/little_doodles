@@ -3,6 +3,7 @@
     ~~~~~~~~~~~~~~~~~~
 """
 import logging
+import uuid
 
 from django.contrib.auth.models import User
 from django.db import models
@@ -15,6 +16,7 @@ class Entity(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     changed = models.DateTimeField(auto_now=True)
     active = models.BooleanField(blank=True, default=True)
+    uuid = models.UUIDField(blank=True, default=uuid.uuid4, unique=True, db_index=True)
     player = models.ForeignKey(User, on_delete=models.CASCADE)
     kind = models.CharField(max_length=1024, db_index=True)
     name = models.CharField(max_length=1024, db_index=True)

@@ -24,7 +24,7 @@ class ToggleActiveAdminMixin:
 
 @admin.register(Entity)
 class EntityAdmin(ToggleActiveAdminMixin, admin.ModelAdmin):
-    list_display = ("name", "kind", "player", "active", "created", "changed")
+    list_display = ("uuid", "name", "kind", "player", "active", "created", "changed")
     list_filter = ("created", "changed", "active")
     search_fields = ("name", "kind", "player__username", "data")
     readonly_fields = ("created", "changed")
