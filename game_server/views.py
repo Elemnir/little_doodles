@@ -97,9 +97,6 @@ class EntityView(LoginRequiredMixin, JsonFormView):
 
 class EntitySearchView(LoginRequiredMixin, View):
     def get(self, request):
-        return JsonResponse({"csrf_token": get_token(request)})
-
-    def post(self, request):
         entities = Entity.objects.filter(active=True)
         try:
             entities.filter(**request.GET)

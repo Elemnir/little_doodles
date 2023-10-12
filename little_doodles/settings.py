@@ -11,7 +11,9 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
 DEBUG = os.getenv("DJANGO_DEBUG", "").lower() == 'true'
-ALLOWED_HOSTS = [os.getenv("DJANGO_ALLOWED_HOSTS")]
+
+ALLOWED_HOSTS = [os.getenv("DJANGO_ALLOWED_HOST")]
+CSRF_TRUSTED_ORIGINS = ["https://*" + os.getenv("DJANGO_ALLOWED_HOST")]
 
 # Application definition
 INSTALLED_APPS = [

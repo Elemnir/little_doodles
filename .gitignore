@@ -3,3 +3,4 @@ venv/
 *.swp
 db.sqlite3
 portal.log
+keys.sh
