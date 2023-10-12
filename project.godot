@@ -12,4 +12,3 @@ config_version=5
 
 config/name="Little Doodles"
 config/features=PackedStringArray("4.1", "Forward Plus")
-config/icon="res://icon.svg"
