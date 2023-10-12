@@ -1,6 +1,9 @@
 venv/
+.godot/
+.vscode/
 *.pyc
 *.swp
 db.sqlite3
 portal.log
 keys.sh
+
