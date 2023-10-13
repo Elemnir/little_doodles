@@ -6,7 +6,7 @@ class_name LittleDoodlesEntity extends Node
 var uuid = null
 
 
-static func from_request_body(entitydef):
+static func from_request_body(entitydef: Dictionary) -> LittleDoodlesEntity:
 	# Returns a new Entity instance from the data structure provided by the
 	# server API. The user is responsible for adding the Entity to the node
 	# tree and freeing it as appropriate.
@@ -19,7 +19,7 @@ static func from_request_body(entitydef):
 	return entity
 
 
-func as_request_body(csrf_token):
+func as_request_body(csrf_token: String) -> String:
 	# Returns a JSON-encoded string representing the entity suitable 
 	# for POST requests.
 	return JSON.stringify({

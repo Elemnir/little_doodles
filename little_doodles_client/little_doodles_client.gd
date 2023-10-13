@@ -14,7 +14,7 @@ const Endpoints = {
 }
 
 
-func create_user(username, password):
+func create_user(username: String, password: String) -> bool:
 	# Register a new user account with the server. Also logs the user in.
 	# Returns true if successful
 	var resp = await _send_request(Endpoints.USER_CREATE)
@@ -33,7 +33,7 @@ func create_user(username, password):
 	return resp != null
 
 
-func auth_user(username, password):
+func auth_user(username: String, password: String) -> bool:
 	# Log an existing user into the server. Returns true is successful
 	var resp = await _send_request(Endpoints.USER_AUTH)
 	if resp == null:
@@ -50,7 +50,7 @@ func auth_user(username, password):
 	return resp != null
 
 
-func save_entity(entity) -> bool:
+func save_entity(entity: LittleDoodlesEntity) -> bool:
 	# Create the Entity on the server if it doesn't already have a UUID,
 	# otherwise update it. Returns true if the save completed successfully
 	var endpoint = Endpoints.ENTITY_CREATE if entity.uuid == null else Endpoints.ENTITY_GET % entity.uuid
@@ -63,7 +63,7 @@ func save_entity(entity) -> bool:
 	return resp != null
 
 
-func get_entity(uuid):
+func get_entity(uuid: String):
 	# Returns an Entity instance selected via UUID.
 	var resp = await _send_request(Endpoints.ENTITY_GET % uuid)
 	if resp == null:
@@ -71,8 +71,10 @@ func get_entity(uuid):
 	return LittleDoodlesEntity.from_request_body(resp["entity"])
 
 
-func search_entity(search_params):
+func search_entity(search_params: String):
 	# Returns a list of Entity instances matching the given search parameters
+	# which should be given as a URI-encoded String of GET parameters. Supports
+	# most Django filter kwarg expressions.
 	var resp = await _send_request(Endpoints.ENTITY_SEARCH % search_params)
 	if resp == null:
 		return null
