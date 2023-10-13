@@ -7,6 +7,9 @@ var uuid = null
 
 
 static func from_request_body(entitydef):
+	# Returns a new Entity instance from the data structure provided by the
+	# server API. The user is responsible for adding the Entity to the node
+	# tree and freeing it as appropriate.
 	var entity = new()
 	entity.name = entitydef["name"]
 	entity.kind = entitydef["kind"]
@@ -17,14 +20,11 @@ static func from_request_body(entitydef):
 
 
 func as_request_body(csrf_token):
-	return {}
-
-
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
+	# Returns a JSON-encoded string representing the entity suitable 
+	# for POST requests.
+	return JSON.stringify({
+		"csrfmiddlewaretoken": csrf_token,
+		"name": name,
+		"kind": kind,
+		"data": data,
+	})
