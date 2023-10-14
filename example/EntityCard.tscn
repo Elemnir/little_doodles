@@ -67,3 +67,5 @@ layout_mode = 2
 [node name="RightMargin" type="MarginContainer" parent="HorizontalLayout"]
 custom_minimum_size = Vector2(16, 0)
 layout_mode = 2
+
+[connection signal="pressed" from="HorizontalLayout/VerticalLayout/BottomLayout/SaveButton" to="." method="_on_save_button_pressed"]

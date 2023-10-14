@@ -6,10 +6,11 @@ extends MarginContainer
 @onready var kind_edit = $HorizontalLayout/VerticalLayout/KindEdit
 @onready var data_edit = $HorizontalLayout/VerticalLayout/DataEdit
 
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	# If the creator isn't the player, make the card readonly
-	if $Entity.player_name != get_parent().player_name:
+	if $Entity.player_name != get_parent().get("player_name"):
 		name_edit.editable = false
 		kind_edit.editable = false
 		data_edit.editable = false
@@ -19,6 +20,5 @@ func _ready():
 		player_label.visible = false
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
+func _on_save_button_pressed():
+	get_parent().try_save($Entity)
