@@ -71,7 +71,7 @@ func get_entity(uuid: String):
 	return LittleDoodlesEntity.from_request_body(resp["entity"])
 
 
-func search_entity(search_params: String):
+func search_entities(search_params: String):
 	# Returns a list of Entity instances matching the given search parameters
 	# which should be given as a URI-encoded String of GET parameters. Supports
 	# most Django filter kwarg expressions.

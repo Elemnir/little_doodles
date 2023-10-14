@@ -1,5 +1,6 @@
-class_name LittleDoodlesEntity extends Node
+class_name LittleDoodlesEntity extends Resource
 
+@export var name: String = ""
 @export var kind: String = ""
 @export var data: Dictionary = {}
 @export var player_name: String = ""
