@@ -1,11 +1,17 @@
-[gd_scene load_steps=2 format=3 uid="uid://ddp1ql13ppxmu"]
+[gd_scene load_steps=4 format=3 uid="uid://ddp1ql13ppxmu"]
 
+[ext_resource type="Script" path="res://example/entity_card.gd" id="1_0h4yf"]
 [ext_resource type="Texture2D" uid="uid://67oxiey443ah" path="res://example/Assests/card_background.png" id="1_hx2ak"]
+[ext_resource type="Script" path="res://little_doodles_client/little_doodles_entity.gd" id="2_s23yb"]
 
 [node name="EntityCard" type="MarginContainer"]
 offset_right = 192.0
 offset_bottom = 256.0
 pivot_offset = Vector2(96, 128)
+script = ExtResource("1_0h4yf")
+
+[node name="Entity" type="Node" parent="."]
+script = ExtResource("2_s23yb")
 
 [node name="Card" type="Sprite2D" parent="."]
 texture = ExtResource("1_hx2ak")
