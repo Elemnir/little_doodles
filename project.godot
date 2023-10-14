@@ -11,4 +11,9 @@ config_version=5
 [application]
 
 config/name="Little Doodles"
+run/main_scene="res://example/example.tscn"
 config/features=PackedStringArray("4.1", "Forward Plus")
+
+[display]
+
+window/size/viewport_width=1184

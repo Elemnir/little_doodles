@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://dnd0xq26ourje"]
+[gd_scene load_steps=4 format=3 uid="uid://dnd0xq26ourje"]
 
 [ext_resource type="Script" path="res://example/example.gd" id="1_h1td6"]
 [ext_resource type="Script" path="res://little_doodles_client/little_doodles_client.gd" id="2_hljvo"]
+[ext_resource type="Texture2D" uid="uid://jpegx3erd3c0" path="res://example/Assests/field_background.png" id="3_bnv3e"]
 
 [node name="example" type="Node2D"]
 script = ExtResource("1_h1td6")
@@ -9,3 +10,55 @@ script = ExtResource("1_h1td6")
 [node name="LittleDoodlesClient" type="HTTPRequest" parent="."]
 script = ExtResource("2_hljvo")
 domain = "oatestbed.adamphoward.com/game/"
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("3_bnv3e")
+centered = false
+
+[node name="AuthForm" type="HBoxContainer" parent="."]
+offset_left = 679.0
+offset_top = 591.0
+offset_right = 1168.0
+offset_bottom = 631.0
+
+[node name="Username" type="LineEdit" parent="AuthForm"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Username"
+
+[node name="Password" type="LineEdit" parent="AuthForm"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Password"
+secret = true
+
+[node name="LoginButton" type="Button" parent="AuthForm"]
+layout_mode = 2
+text = "Login"
+
+[node name="CreateButton" type="Button" parent="AuthForm"]
+layout_mode = 2
+text = "Create"
+
+[node name="EntityControls" type="HBoxContainer" parent="."]
+offset_left = 18.0
+offset_top = 545.0
+offset_right = 607.0
+offset_bottom = 585.0
+
+[node name="CreateEntityButton" type="Button" parent="EntityControls"]
+layout_mode = 2
+text = "Create New"
+
+[node name="Spacer" type="MarginContainer" parent="EntityControls"]
+custom_minimum_size = Vector2(16, 0)
+layout_mode = 2
+
+[node name="SearchBox" type="LineEdit" parent="EntityControls"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Entity Search Parameters"
+
+[node name="SearchButton" type="Button" parent="EntityControls"]
+layout_mode = 2
+text = "Search"
