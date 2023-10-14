@@ -1,0 +1,63 @@
+[gd_scene load_steps=2 format=3 uid="uid://ddp1ql13ppxmu"]
+
+[ext_resource type="Texture2D" uid="uid://67oxiey443ah" path="res://example/Assests/card_background.png" id="1_hx2ak"]
+
+[node name="EntityCard" type="MarginContainer"]
+offset_right = 192.0
+offset_bottom = 256.0
+pivot_offset = Vector2(96, 128)
+
+[node name="Card" type="Sprite2D" parent="."]
+texture = ExtResource("1_hx2ak")
+centered = false
+
+[node name="HorizontalLayout" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="LeftMargin" type="MarginContainer" parent="HorizontalLayout"]
+custom_minimum_size = Vector2(16, 0)
+layout_mode = 2
+
+[node name="VerticalLayout" type="VBoxContainer" parent="HorizontalLayout"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="TopMargin" type="MarginContainer" parent="HorizontalLayout/VerticalLayout"]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+
+[node name="NameEdit" type="LineEdit" parent="HorizontalLayout/VerticalLayout"]
+layout_mode = 2
+placeholder_text = "Name"
+max_length = 32
+caret_blink = true
+
+[node name="KindEdit" type="LineEdit" parent="HorizontalLayout/VerticalLayout"]
+layout_mode = 2
+placeholder_text = "Kind"
+max_length = 32
+caret_blink = true
+
+[node name="DataEdit" type="TextEdit" parent="HorizontalLayout/VerticalLayout"]
+layout_mode = 2
+size_flags_vertical = 3
+placeholder_text = "JSON Data"
+
+[node name="BottomLayout" type="HBoxContainer" parent="HorizontalLayout/VerticalLayout"]
+layout_mode = 2
+
+[node name="SaveButton" type="Button" parent="HorizontalLayout/VerticalLayout/BottomLayout"]
+layout_mode = 2
+text = "Save"
+
+[node name="PlayerLabel" type="Label" parent="HorizontalLayout/VerticalLayout/BottomLayout"]
+layout_mode = 2
+text = "PlayerName"
+
+[node name="BottomMargin" type="MarginContainer" parent="HorizontalLayout/VerticalLayout"]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+
+[node name="RightMargin" type="MarginContainer" parent="HorizontalLayout"]
+custom_minimum_size = Vector2(16, 0)
+layout_mode = 2

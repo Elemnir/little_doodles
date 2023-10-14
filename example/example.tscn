@@ -1,3 +1,11 @@
-[gd_scene format=3 uid="uid://dnd0xq26ourje"]
+[gd_scene load_steps=3 format=3 uid="uid://dnd0xq26ourje"]
+
+[ext_resource type="Script" path="res://example/example.gd" id="1_h1td6"]
+[ext_resource type="Script" path="res://little_doodles_client/little_doodles_client.gd" id="2_hljvo"]
 
 [node name="example" type="Node2D"]
+script = ExtResource("1_h1td6")
+
+[node name="LittleDoodlesClient" type="HTTPRequest" parent="."]
+script = ExtResource("2_hljvo")
+domain = "oatestbed.adamphoward.com/game/"
