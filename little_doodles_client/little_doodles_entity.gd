@@ -21,11 +21,8 @@ static func from_request_body(entitydef: Dictionary) -> LittleDoodlesEntity:
 
 
 func as_request_body(csrf_token: String) -> String:
-	# Returns a JSON-encoded string representing the entity suitable 
+	# Returns a x-www-form-encoded string representing the entity suitable 
 	# for POST requests.
-	return JSON.stringify({
-		"csrfmiddlewaretoken": csrf_token,
-		"name": name,
-		"kind": kind,
-		"data": data,
-	})
+	return "csrfmiddlewaretoken=%s&name=%s&kind=%s&data=%s" % [
+			csrf_token, name, kind, JSON.stringify(data)
+	]
