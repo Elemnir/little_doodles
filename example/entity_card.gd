@@ -11,6 +11,10 @@ extends MarginContainer
 var entity = LittleDoodlesEntity.new()
 
 func _ready():
+	name_edit.text = entity.name
+	kind_edit.text = entity.kind
+	data_edit.text = JSON.stringify(entity.data, "  ")
+	
 	# If the creator isn't the player, make the card readonly
 	if entity.player_name != root_scene.player_name:
 		name_edit.editable = false
@@ -23,4 +27,7 @@ func _ready():
 
 
 func _on_save_button_pressed():
+	entity.name = name_edit.text
+	entity.kind = kind_edit.text
+	entity.data = JSON.parse_string(data_edit.text)
 	root_scene.try_save(entity)

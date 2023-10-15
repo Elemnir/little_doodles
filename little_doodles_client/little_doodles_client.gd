@@ -2,12 +2,12 @@ class_name LittleDoodlesClient extends HTTPRequest
 
 @export var scheme = "https"
 @export var domain = "example.com/game/"
-var api_url = "%s://%s" % [scheme, domain]
-var cookiejar = {}
+@onready var api_url = "%s://%s" % [scheme, domain]
+var cookiejar = PackedStringArray()
 
 const Endpoints = {
 	USER_AUTH = "user/auth/",
-	USER_CREATE = "user/create/",
+	USER_CREATE = "user/add/",
 	ENTITY_SEARCH = "entity/search/?%s",
 	ENTITY_CREATE = "entity/add/",
 	ENTITY_GET = "entity/%s/"
@@ -23,12 +23,9 @@ func create_user(username: String, password: String) -> bool:
 	resp = await _send_request(
 		Endpoints.USER_CREATE, 
 		HTTPClient.METHOD_POST,
-		JSON.stringify({
-			"csrfmiddlewaretoken": resp["csrf_token"],
-			"username": username,
-			"password1": password,
-			"password2": password,
-		})
+		"csrfmiddlewaretoken=%s&username=%s&password1=%s&password2=%s" % [
+			resp["csrf_token"], username, password, password,
+		]
 	)
 	return resp != null
 
@@ -41,11 +38,9 @@ func auth_user(username: String, password: String) -> bool:
 	resp = await _send_request(
 		Endpoints.USER_AUTH, 
 		HTTPClient.METHOD_POST,
-		JSON.stringify({
-			"csrfmiddlewaretoken": resp["csrf_token"],
-			"username": username,
-			"password": password,
-		})
+		"csrfmiddlewaretoken=%s&username=%s&password=%s" % [
+			resp["csrf_token"], username, password,
+		]
 	)
 	return resp != null
 
@@ -85,10 +80,10 @@ func search_entities(search_params: String):
 	return entities
 
 
-func _send_request(endpoint, method = HTTPClient.METHOD_GET, body = ""):
-	var headers = ["Content-Type: application/json"]
+func _send_request(endpoint, method = HTTPClient.METHOD_GET, body: String = ""):
+	var headers = PackedStringArray(["Content-Type: application/x-www-form-urlencoded"])
 	if cookiejar:
-		headers.append("Cookie: %s" % cookiejar.join("; "))
+		headers.append("Cookie: %s" % "; ".join(cookiejar))
 
 	request(api_url.path_join(endpoint), headers, method, body)
 
@@ -112,7 +107,7 @@ func _send_request(endpoint, method = HTTPClient.METHOD_GET, body = ""):
 		resp_body = JSON.parse_string(resp_body_str)
 
 	if resp_body != null and resp_body.get("result", "") == "failure":
-		push_error(JSON.stringify(["errors"], "  "))
+		push_error(JSON.stringify(resp_body["errors"]))
 		return null
 
 	return resp_body
