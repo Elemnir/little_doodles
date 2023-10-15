@@ -44,8 +44,7 @@ class UserCreateView(JsonFormView):
 
 class UserAuthView(JsonFormView):
     def post(self, request):
-        """"""
-        form = AuthenticationForm(request.POST)
+        form = AuthenticationForm(data=request.POST)
         result, response = self.validate_form(form)
         if result:
             login(request, form.get_user())
