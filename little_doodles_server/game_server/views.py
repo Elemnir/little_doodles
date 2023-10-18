@@ -34,6 +34,7 @@ class JsonFormView(View):
 
 
 class UserCreateView(JsonFormView):
+    """Simple User Creation View"""
     def post(self, request):
         form = UserCreationForm(request.POST)
         result, response = self.validate_form(form)
@@ -43,6 +44,7 @@ class UserCreateView(JsonFormView):
 
 
 class UserAuthView(JsonFormView):
+    """Simple User Authentication View"""
     def post(self, request):
         form = AuthenticationForm(data=request.POST)
         result, response = self.validate_form(form)
