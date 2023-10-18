@@ -55,10 +55,10 @@ instantiated client is invoked to save the Entity. Client instances will save
 authentication credentials between calls, and can deduce whether the provided
 Entity needs to be created on the server as new or simply modified.
 
-As for the server, the Django documentation provides examples of many deployment
-scenarios, and the settings are highly customizable, but to simply get a
-development sandbox working on a Linux system, the following should be
-sufficient:
+As for the server, the Django documentation provides examples of many 
+[deployment scenarios][django-deploy], and the settings are highly customizable,
+but to simply get a development sandbox working on a Linux system, the following
+should be sufficient:
 
 ```
 cd little_doodles_server/
@@ -81,7 +81,7 @@ scenario!)
 Also, note the `keys.sh` file is intended to contain secrets for your project
 and shouldn't be committed to a repo or shared!
 
-
+[badge]: https://flat.badgen.net/badge/made%20for/Godot%204.1%2b/478cbf
+[django-deploy]: https://docs.djangoproject.com/en/4.2/howto/deployment/
 [godot]: https://godotengine.org/
 [godot-http]: https://docs.godotengine.org/en/stable/tutorials/networking/http_request_class.html
-[badge]: https://flat.badgen.net/badge/made%20for/Godot%204.1%2b/478cbf
