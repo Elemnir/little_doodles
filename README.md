@@ -17,8 +17,8 @@ using Django.
 
 ## Usage
 
-More detailed documentation can be found in the relvant subdirectory, but here's
-a quick summary:
+More detailed documentation on each component can be found in the relevant
+subdirectory's readme, but here's a quick summary:
 
 ```gd
 func _ready():
