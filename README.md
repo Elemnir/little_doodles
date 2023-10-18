@@ -23,7 +23,7 @@ a quick summary:
 ```gd
 func _ready():
 	var client = LittleDoodlesClient.new()
-	client.domain = "example.com"
+	client.domain = "example.com/game"
 	if await client.auth_user("username", "password"):
 		var entities = await client.search_entities("kind=score")
 	else:
