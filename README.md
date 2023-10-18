@@ -22,12 +22,12 @@ a quick summary:
 
 ```gd
 func _ready():
-	var client = LittleDoodlesClient.new()
-	client.domain = "example.com/game"
-	if await client.auth_user("username", "password"):
-		var entities = await client.search_entities("kind=score")
-	else:
-		pass #Authentication failed!
+    var client = LittleDoodlesClient.new()
+    client.domain = "example.com/game"
+    if await client.auth_user("username", "password"):
+        var entities = await client.search_entities("kind=score")
+    else:
+        pass #Authentication failed!
 ```
 
 In this example, an instance of the client is created and the server domain is
