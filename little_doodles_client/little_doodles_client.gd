@@ -1,10 +1,8 @@
 class_name LittleDoodlesClient extends HTTPRequest
+## Client class for interacting with a LittleDoodles Server.
+##
 
-@export var scheme = "https"
-@export var domain = "example.com/game/"
-@onready var api_url = "%s://%s" % [scheme, domain]
-var cookiejar = PackedStringArray()
-
+## LittleDoodles API Endpoints 
 const Endpoints = {
 	USER_AUTH = "user/auth/",
 	USER_CREATE = "user/add/",
@@ -13,10 +11,19 @@ const Endpoints = {
 	ENTITY_GET = "entity/%s/"
 }
 
+## The protocol scheme to use. Either "https" or "http.
+@export var scheme: String = "https"
 
+## The domain and URL prefix for the API. By default, the server exposes the API
+## at "/game/", so be sure to include it with your custom domain.
+@export var domain: String = "example.com/game/"
+
+var _cookiejar = PackedStringArray()
+@onready var _api_url = "%s://%s" % [scheme, domain]
+
+## Register a new user account with the server. Also logs the user in. Returns
+## true if successful
 func create_user(username: String, password: String) -> bool:
-	# Register a new user account with the server. Also logs the user in.
-	# Returns true if successful
 	var resp = await _send_request(Endpoints.USER_CREATE)
 	if resp == null:
 		return false
@@ -30,8 +37,8 @@ func create_user(username: String, password: String) -> bool:
 	return resp != null
 
 
+## Log an existing user into the server. Returns true is successful
 func auth_user(username: String, password: String) -> bool:
-	# Log an existing user into the server. Returns true is successful
 	var resp = await _send_request(Endpoints.USER_AUTH)
 	if resp == null:
 		return false
@@ -44,10 +51,9 @@ func auth_user(username: String, password: String) -> bool:
 	)
 	return resp != null
 
-
+## Create the Entity on the server if it doesn't already have a UUID, otherwise
+## update it. Returns true if the save completed successfully
 func save_entity(entity: LittleDoodlesEntity) -> bool:
-	# Create the Entity on the server if it doesn't already have a UUID,
-	# otherwise update it. Returns true if the save completed successfully
 	var endpoint = Endpoints.ENTITY_CREATE if entity.uuid == null else Endpoints.ENTITY_GET % entity.uuid
 	var resp = await _send_request(endpoint)
 	if resp == null:
@@ -58,18 +64,18 @@ func save_entity(entity: LittleDoodlesEntity) -> bool:
 	return resp != null
 
 
+## Returns an Entity instance selected via UUID.
 func get_entity(uuid: String):
-	# Returns an Entity instance selected via UUID.
 	var resp = await _send_request(Endpoints.ENTITY_GET % uuid)
 	if resp == null:
 		return null
 	return LittleDoodlesEntity.from_request_body(resp["entity"])
 
 
+## Returns a list of Entity instances matching the given search parameters
+## which should be given as a URI-encoded String of GET parameters. Supports
+## most Django filter kwarg expressions.
 func search_entities(search_params: String):
-	# Returns a list of Entity instances matching the given search parameters
-	# which should be given as a URI-encoded String of GET parameters. Supports
-	# most Django filter kwarg expressions.
 	var resp = await _send_request(Endpoints.ENTITY_SEARCH % search_params)
 	if resp == null:
 		return null
@@ -82,10 +88,10 @@ func search_entities(search_params: String):
 
 func _send_request(endpoint, method = HTTPClient.METHOD_GET, body: String = ""):
 	var headers = PackedStringArray(["Content-Type: application/x-www-form-urlencoded"])
-	if cookiejar:
-		headers.append("Cookie: %s" % "; ".join(cookiejar))
+	if _cookiejar:
+		headers.append("Cookie: %s" % "; ".join(_cookiejar))
 
-	request(api_url.path_join(endpoint), headers, method, body)
+	request(_api_url.path_join(endpoint), headers, method, body)
 
 	var response = await request_completed
 	if response[0] != 0:
@@ -95,7 +101,7 @@ func _send_request(endpoint, method = HTTPClient.METHOD_GET, body: String = ""):
 	# Handle cookie headers
 	for header in response[2]:
 		if header.to_lower().begins_with("set-cookie"):
-			cookiejar.append(header.split(":", true, 1)[1].strip_edges().split("; ")[0])
+			_cookiejar.append(header.split(":", true, 1)[1].strip_edges().split("; ")[0])
 
 	if response[1] != 200:
 		push_error("Non-OK Response Code Received: %s" % response[1])
