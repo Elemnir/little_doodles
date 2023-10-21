@@ -1,10 +1,22 @@
 class_name LittleDoodlesEntity extends Resource
 ## Data structure representing the Entity models in the LittleDoodles API
 
+## The name of the entity
 @export var name: String = ""
+
+## The "kind" of thing that the entity is
 @export var kind: String = ""
+
+## Dictionary of supplementary entity data
 @export var data: Dictionary = {}
+
+## Name of the player who created the Entity
 @export var player_name: String = ""
+
+## Unique identifier for the Entity. Locally created Entities will have this as
+## null until they are saved, after which it will be a String with the UUID
+## which is suitable for passing to [method LittleDoodlesClient.get_entity] so
+## that the entity can be retrieved later.
 var uuid = null
 
 

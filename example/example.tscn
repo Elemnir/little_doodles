@@ -10,7 +10,6 @@ script = ExtResource("1_h1td6")
 [node name="LittleDoodlesClient" type="HTTPRequest" parent="."]
 timeout = 5.0
 script = ExtResource("2_hljvo")
-domain = "example.com/game/"
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("3_bnv3e")
