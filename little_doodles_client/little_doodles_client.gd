@@ -4,22 +4,19 @@ class_name LittleDoodlesClient extends HTTPRequest
 
 ## LittleDoodles API Endpoints 
 const Endpoints = {
-	USER_AUTH = "user/auth/",
-	USER_CREATE = "user/add/",
-	ENTITY_SEARCH = "entity/search/?%s",
-	ENTITY_CREATE = "entity/add/",
-	ENTITY_GET = "entity/%s/"
+	USER_AUTH = "/game/user/auth/",
+	USER_CREATE = "/game/user/add/",
+	ENTITY_SEARCH = "/game/entity/search/?%s",
+	ENTITY_CREATE = "/game/entity/add/",
+	ENTITY_GET = "/game/entity/%s/"
 }
 
-## The protocol scheme to use. Either "https" or "http.
-@export var scheme: String = "https"
-
-## The domain and URL prefix for the API. By default, the server exposes the API
-## at "/game/", so be sure to include it with your custom domain.
-@export var domain: String = "example.com/game/"
+## The URL including protocol and domain name where the LittleDoodlesServer
+## is running. Supports HTTP or HTTPS, as well as arbitrary ports.
+@export var api_url = "https://example.com"
 
 var _cookiejar = PackedStringArray()
-@onready var _api_url = "%s://%s" % [scheme, domain]
+
 
 ## Register a new user account with the server. Also logs the user in. Returns
 ## true if successful
@@ -91,7 +88,7 @@ func _send_request(endpoint, method = HTTPClient.METHOD_GET, body: String = ""):
 	if _cookiejar:
 		headers.append("Cookie: %s" % "; ".join(_cookiejar))
 
-	request(_api_url.path_join(endpoint), headers, method, body)
+	request(api_url.path_join(endpoint), headers, method, body)
 
 	var response = await request_completed
 	if response[0] != 0:

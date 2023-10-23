@@ -23,7 +23,7 @@ subdirectory's readme, but here's a quick summary:
 ```gd
 func _ready():
     var client = LittleDoodlesClient.new()
-    client.domain = "example.com/game"
+    client.api_url = "https://example.com"
     if await client.auth_user("username", "password"):
         var entities = await client.search_entities("kind=score")
     else:
@@ -31,11 +31,11 @@ func _ready():
 ```
 
 In this example, an instance of the client is created and the server domain is
-set (the "https://" is added automatically). Next, an attempt is made to
-authenticate, and if it returns true, then the a search is performed for any
-entities whose "kind" is equal to "score". The returned entities is a list of
-LittleDoodlesEntity resources with a name, kind, associated player name for who
-created them, and a data field for any arbitrary data, stored as a Dictionary.
+set. Next, an attempt is made to authenticate, and if it returns true, then the
+search is performed for any entities whose "kind" is equal to "score". The
+returned entities is a list of LittleDoodlesEntity resources with a name, kind,
+associated player name for who created them, and a data field for any arbitrary
+data, stored as a Dictionary.
 
 ```gd
 func _ready():
@@ -73,7 +73,7 @@ source keys.sh
 ```
 
 This will create a new Python Virtual Environment, activate it, install Django,
-and then create the database and tables (uses Sqlite by default), and starts the
+then create the database and tables (uses Sqlite by default), and starts the
 development server on port 8000 running over HTTP. (Remember to update the
 `scheme` property of your LittleDoodlesClient node in Godot to be `http` in this
 scenario!)
