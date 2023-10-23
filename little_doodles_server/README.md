@@ -22,11 +22,7 @@ for interacting with the database contents directly without needing to break out
 the SQL.
 
 To use it, a User must be created which has `is_staff=True`. The quickest way to
-do this is via the `manage.py` CLI:
-
-<code>
-./manage.py createsuperuser
-</code>
+do this is via the `manage.py` CLI: `./manage.py createsuperuser`
 
 Follow the prompts and it will create the user. Next, start the server, then, in
 a browser, navigate to `/admin/`. Log in with the superuser credentials you just
