@@ -13,7 +13,7 @@ NOTE: This is not intended for real-time multiplayer elements, as it relies on
 performance.
 
 The client is a pure GDScript implementation and the server is built in Python
-using Django.
+using Django. The server has only been tested on Linux.
 
 ## Usage
 
@@ -74,9 +74,7 @@ source keys.sh
 
 This will create a new Python Virtual Environment, activate it, install Django,
 then create the database and tables (uses Sqlite by default), and starts the
-development server on port 8000 running over HTTP. (Remember to update the
-`scheme` property of your LittleDoodlesClient node in Godot to be `http` in this
-scenario!)
+development server on port 8000 running over HTTP.
 
 Also, note the `keys.sh` file is intended to contain secrets for your project
 and shouldn't be committed to a repo or shared!
