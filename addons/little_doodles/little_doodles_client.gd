@@ -1,3 +1,4 @@
+@icon("res://addons/little_doodles/little_doodles_client.svg")
 class_name LittleDoodlesClient extends HTTPRequest
 ## Client class for interacting with a LittleDoodles Server.
 ##
@@ -15,7 +16,7 @@ const Endpoints = {
 ## is running. Supports HTTP or HTTPS, as well as arbitrary ports.
 @export var api_url = "https://example.com"
 
-var _cookiejar = PackedStringArray()
+var _cookiejar := PackedStringArray()
 
 
 ## Register a new user account with the server. Also logs the user in. Returns
@@ -84,27 +85,32 @@ func search_entities(search_params: String):
 
 
 func _send_request(endpoint, method = HTTPClient.METHOD_GET, body: String = ""):
-	var headers = PackedStringArray(["Content-Type: application/x-www-form-urlencoded"])
+	var request_headers = PackedStringArray(["Content-Type: application/x-www-form-urlencoded"])
 	if _cookiejar:
-		headers.append("Cookie: %s" % "; ".join(_cookiejar))
+		request_headers.append("Cookie: %s" % "; ".join(_cookiejar))
 
-	request(api_url.path_join(endpoint), headers, method, body)
+	request(api_url.path_join(endpoint), request_headers, method, body)
 
 	var response = await request_completed
-	if response[0] != 0:
-		push_error("Request Error Occurred: %s" % response[0])
+	var response_result: int = response[0]
+	var response_code: int = response[1]
+	var response_headers: PackedStringArray = response[2]
+	var response_body: PackedByteArray = response[3]
+	
+	if response_result != RESULT_SUCCESS:
+		push_error("Request Error Occurred: %s" % response_result)
 		return null
 	
 	# Handle cookie headers
-	for header in response[2]:
+	for header in response_headers:
 		if header.to_lower().begins_with("set-cookie"):
 			_cookiejar.append(header.split(":", true, 1)[1].strip_edges().split("; ")[0])
 
-	if response[1] != 200:
-		push_error("Non-OK Response Code Received: %s" % response[1])
+	if response_code != 200:
+		push_error("Non-OK Response Code Received: %s" % response_code)
 		return null
 
-	var resp_body_str = response[3].get_string_from_utf8()
+	var resp_body_str = response_body.get_string_from_utf8()
 	var resp_body = null
 	if resp_body_str != null && not resp_body_str.is_empty():
 		resp_body = JSON.parse_string(resp_body_str)

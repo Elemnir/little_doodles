@@ -22,12 +22,12 @@ subdirectory's readme, but here's a quick summary:
 
 ```gd
 func _ready():
-    var client = LittleDoodlesClient.new()
-    client.api_url = "https://example.com"
-    if await client.auth_user("username", "password"):
-        var entities = await client.search_entities("kind=score")
-    else:
-        pass #Authentication failed!
+	var client = LittleDoodlesClient.new()
+	client.api_url = "https://example.com"
+	if await client.auth_user("username", "password"):
+		var entities = await client.search_entities("kind=score")
+	else:
+		pass #Authentication failed!
 ```
 
 In this example, an instance of the client is created and the server domain is
@@ -39,14 +39,14 @@ data, stored as a Dictionary.
 
 ```gd
 func _ready():
-    var highscore = LittleDoodlesEntity.new()
-    highscore.name = "<playername>_highscore"
-    highscore.kind = "highscore"
-    highscore.data = {"score": 9999}
-    if await client.save_entity(highscore):
-        print("Score saved successfully!")
-    else:
-        print("Save failed!")
+	var highscore = LittleDoodlesEntity.new()
+	highscore.name = "<playername>_highscore"
+	highscore.kind = "highscore"
+	highscore.data = {"score": 9999}
+	if await client.save_entity(highscore):
+		print("Score saved successfully!")
+	else:
+		print("Save failed!")
 ```
 
 Persisting and modifying data on the server is straightforward. In the above

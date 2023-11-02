@@ -18,3 +18,7 @@ config/features=PackedStringArray("4.1", "Forward Plus")
 
 window/size/viewport_width=1184
 window/stretch/mode="canvas_items"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/little_doodles/plugin.cfg")
