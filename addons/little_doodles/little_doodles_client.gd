@@ -25,12 +25,18 @@ func create_user(username: String, password: String) -> bool:
 	var resp = await _send_request(Endpoints.USER_CREATE)
 	if resp == null:
 		return false
+		
+	var csrf_header = PackedStringArray(["X-CSRFToken: %s" % resp["csrf_token"]])
 	resp = await _send_request(
-		Endpoints.USER_CREATE, 
+		Endpoints.USER_CREATE,
 		HTTPClient.METHOD_POST,
-		"csrfmiddlewaretoken=%s&username=%s&password1=%s&password2=%s" % [
-			resp["csrf_token"], username, password, password,
-		]
+		csrf_header,
+		JSON.stringify({
+			"csrfmiddlewaretoken": resp["csrf_token"],
+			"username": username,
+			"password1": password,
+			"password2": password,
+		})
 	)
 	return resp != null
 
@@ -40,12 +46,16 @@ func auth_user(username: String, password: String) -> bool:
 	var resp = await _send_request(Endpoints.USER_AUTH)
 	if resp == null:
 		return false
+	var csrf_header = PackedStringArray(["X-CSRFToken: %s" % resp["csrf_token"]])
 	resp = await _send_request(
 		Endpoints.USER_AUTH, 
 		HTTPClient.METHOD_POST,
-		"csrfmiddlewaretoken=%s&username=%s&password=%s" % [
-			resp["csrf_token"], username, password,
-		]
+		csrf_header,		
+		JSON.stringify({
+			"csrfmiddlewaretoken": resp["csrf_token"],
+			"username": username,
+			"password": password,
+		})
 	)
 	return resp != null
 
@@ -56,8 +66,9 @@ func save_entity(entity: LittleDoodlesEntity) -> bool:
 	var resp = await _send_request(endpoint)
 	if resp == null:
 		return false
+	var csrf_header = PackedStringArray(["X-CSRFToken: %s" % resp["csrf_token"]])
 	resp = await _send_request(
-		endpoint, HTTPClient.METHOD_POST, entity.as_request_body(resp["csrf_token"])
+		endpoint, HTTPClient.METHOD_POST, csrf_header, entity.as_request_body()
 	)
 	return resp != null
 
@@ -84,8 +95,9 @@ func search_entities(search_params: String):
 	return entities
 
 
-func _send_request(endpoint, method = HTTPClient.METHOD_GET, body: String = ""):
-	var request_headers = PackedStringArray(["Content-Type: application/x-www-form-urlencoded"])
+func _send_request(endpoint, method = HTTPClient.METHOD_GET, extra_headers: PackedStringArray = [], body: String = ""):
+	var request_headers = PackedStringArray(["Content-Type: application/json"])
+	request_headers.append_array(extra_headers)
 	if _cookiejar:
 		request_headers.append("Cookie: %s" % "; ".join(_cookiejar))
 
