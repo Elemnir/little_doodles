@@ -2,6 +2,8 @@
     game_server.views
     ~~~~~~~~~~~~~~~~~
 """
+import json
+
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -21,7 +23,6 @@ def failure_response(errors):
 
 class JsonFormView(View):
     """Base class that wraps some repetitive logic for JSON form views."""
-
     def get(self, request):
         """GET request logic just returns the token for CSRF protection."""
         return JsonResponse({"csrf_token": get_token(request)})
@@ -36,7 +37,11 @@ class JsonFormView(View):
 class UserCreateView(JsonFormView):
     """Simple User Creation View"""
     def post(self, request):
-        form = UserCreationForm(request.POST)
+        try:
+            form = UserCreationForm(json.loads(request.body))
+        except json.JSONDecodeError:
+            return failure_response("Request body was not valid JSON")
+
         result, response = self.validate_form(form)
         if result:
             login(request, form.save())
@@ -46,7 +51,11 @@ class UserCreateView(JsonFormView):
 class UserAuthView(JsonFormView):
     """Simple User Authentication View"""
     def post(self, request):
-        form = AuthenticationForm(data=request.POST)
+        try:
+            form = AuthenticationForm(data=json.loads(request.body))
+        except json.JSONDecodeError:
+            return failure_response("Request body was not valid JSON")
+
         result, response = self.validate_form(form)
         if result:
             login(request, form.get_user())
@@ -63,7 +72,11 @@ class EntityForm(ModelForm):
 class EntityCreateView(LoginRequiredMixin, JsonFormView):
     def post(self, request):
         """Entity creation view."""
-        form = EntityForm(request.POST)
+        try:
+            form = EntityForm(json.loads(request.body))
+        except json.JSONDecodeError:
+            return failure_response("Request body was not valid JSON")
+
         result, response = self.validate_form(form)
         if result:
             entity = form.save(commit=False)
@@ -100,7 +113,11 @@ class EntityView(LoginRequiredMixin, JsonFormView):
         if request.user != entity.player:
             return failure_response("Change Permission Denied")
 
-        form = EntityForm(request.POST, instance=entity)
+        try:
+            form = EntityForm(json.loads(request.body), instance=entity)
+        except json.JSONDecodeError:
+            return failure_response("Request body was not valid JSON")
+
         result, response = self.validate_form(form)
         if result:
             form.save()
