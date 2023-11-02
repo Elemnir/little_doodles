@@ -26,7 +26,7 @@ class Migration(migrations.Migration):
                 ('uuid', models.UUIDField(blank=True, db_index=True, default=uuid.uuid4, unique=True)),
                 ('kind', models.CharField(db_index=True, max_length=1024)),
                 ('name', models.CharField(db_index=True, max_length=1024)),
-                ('data', models.JSONField(blank=True, default=dict)),
+                ('data', models.JSONField(blank=True, null=True, default=dict)),
                 ('player', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
         ),
