@@ -1,3 +1,4 @@
+@icon("res://addons/little_doodles/little_doodles_client.svg")
 class_name LittleDoodlesClient extends HTTPRequest
 ## Client class for interacting with a LittleDoodles Server.
 ##

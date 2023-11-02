@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://dnd0xq26ourje"]
 
 [ext_resource type="Script" path="res://example/example.gd" id="1_h1td6"]
-[ext_resource type="Script" path="res://little_doodles_client/little_doodles_client.gd" id="2_hljvo"]
+[ext_resource type="Script" path="res://addons/little_doodles/little_doodles_client.gd" id="2_hljvo"]
 [ext_resource type="Texture2D" uid="uid://jpegx3erd3c0" path="res://example/Assests/field_background.png" id="3_bnv3e"]
 
 [node name="example" type="Node2D"]
