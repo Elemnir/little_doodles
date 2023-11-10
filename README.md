@@ -65,9 +65,8 @@ cd little_doodles_server/
 python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
-cp little_doodles/keys.sh.template keys.sh
-# Edit keys.sh with your hostname and set a large, random string for the secret key
-source keys.sh
+cp little_doodles/local_settings.py.template little_doodles/local_settings.py
+# Edit little_doodles/local_settings.py and follow the instructions inside.
 ./manage.py migrate
 ./manage.py runserver 0.0.0.0:8000
 ```
@@ -76,8 +75,8 @@ This will create a new Python Virtual Environment, activate it, install Django,
 then create the database and tables (uses Sqlite by default), and starts the
 development server on port 8000 running over HTTP.
 
-Also, note the `keys.sh` file is intended to contain secrets for your project
-and shouldn't be committed to a repo or shared!
+Also, note the `little_doodles/local_settings.py` file is intended to contain
+secrets for your project and shouldn't be committed to a repo or shared!
 
 [badge]: https://flat.badgen.net/badge/made%20for/Godot%204.1%2b/478cbf
 [django-deploy]: https://docs.djangoproject.com/en/4.2/howto/deployment/

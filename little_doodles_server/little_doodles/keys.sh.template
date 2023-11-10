@@ -1,6 +1,0 @@
-#!/bin/bash
-
-export DJANGO_DEBUG='True'
-export DJANGO_ALLOWED_HOST='.example.com'
-export DJANGO_SECRET_KEY='django-insecure-make-something-else'
-

@@ -1,0 +1,19 @@
+"""
+
+While the main settings file should contain most of the project configuration,
+this module is intended for local settings and secrets you don't want committed
+to the repo. 
+
+Copy this file to ''little_doodles/local_settings.py'' so that it can be
+imported and fill in values as appropriate for you!
+
+"""
+
+# This should be False in production!
+DEBUG = True
+
+# Should be a list of hostnames that this server could be hosted under
+ALLOWED_HOSTS = ["localhost"]
+
+# This should be a large, random string
+SECRET_KEY = ""
