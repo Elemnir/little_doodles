@@ -23,7 +23,6 @@ CSRF_TRUSTED_ORIGINS = list([
     scheme + "://" + ('*' + host if host.startswith('.') else host)
     for scheme in ["http", "https"] for host in local_settings.ALLOWED_HOSTS
 ])
-print(CSRF_TRUSTED_ORIGINS)
 
 # Application definition
 INSTALLED_APPS = [
