@@ -32,7 +32,6 @@ func create_user(username: String, password: String) -> bool:
 		HTTPClient.METHOD_POST,
 		csrf_header,
 		JSON.stringify({
-			"csrfmiddlewaretoken": resp["csrf_token"],
 			"username": username,
 			"password1": password,
 			"password2": password,
@@ -52,7 +51,6 @@ func auth_user(username: String, password: String) -> bool:
 		HTTPClient.METHOD_POST,
 		csrf_header,		
 		JSON.stringify({
-			"csrfmiddlewaretoken": resp["csrf_token"],
 			"username": username,
 			"password": password,
 		})
